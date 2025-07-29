@@ -27,4 +27,13 @@ public class RestaurantService {
         List<RestaurantDTO> restaurantDTOList = restaurantList.stream().map(restaurant -> RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant)).collect(Collectors.toList());
         return restaurantDTOList;
     }
+
+    public RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) {
+        // Map the RestaurantDTO to a Restaurant entity
+        Restaurant restaurant = RestaurantMapper.INSTANCE.mapRestaurantDTOToRestaurant(restaurantDTO);
+        // Save the restaurant entity to the database
+        Restaurant savedRestaurant = restaurantRepo.save(restaurant);
+        // Map the saved Restaurant entity back to a RestaurantDTO
+        return RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(savedRestaurant);
+    }
 }
