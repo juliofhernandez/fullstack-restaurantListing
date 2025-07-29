@@ -42,4 +42,13 @@ public class RestaurantController {
         }
         return ResponseEntity.ok(restaurantDTO); // Return 200 OK with the restaurant details
     }
+
+    @DeleteMapping("/deleteRestaurantById/{id}")
+    public ResponseEntity<Void> deleteRestaurantById(@PathVariable int id) {
+        boolean isDeleted = restaurantService.deleteRestaurantById(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found if the restaurant does not exist
+        }
+        return ResponseEntity.noContent().build(); // Return 204 No Content if the restaurant was successfully deleted
+    }
 }

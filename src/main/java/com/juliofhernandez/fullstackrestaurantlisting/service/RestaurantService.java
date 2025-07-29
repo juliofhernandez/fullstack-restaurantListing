@@ -47,4 +47,14 @@ public class RestaurantService {
         // Map the found Restaurant entity to a RestaurantDTO
         return RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant);
     }
+
+    public boolean deleteRestaurantById(int id) {
+        // Check if the restaurant exists by ID
+        if (!restaurantRepo.existsById(id)) {
+            return false; // Return false if the restaurant does not exist
+        }
+        // Delete the restaurant by ID
+        restaurantRepo.deleteById(id);
+        return true; // Return true if the restaurant was successfully deleted
+    }
 }
