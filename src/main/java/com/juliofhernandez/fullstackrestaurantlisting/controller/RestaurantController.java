@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
-    @Autowired
-    RestaurantService restaurantService;
+    private RestaurantService restaurantService;
+
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
 
     @GetMapping("/getAllRestaurants")
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {

@@ -14,14 +14,17 @@ import java.util.stream.Collectors;
 @Service
 public class RestaurantService {
 
-    @Autowired
-    RestaurantRepo restaurantRepo;
+    private RestaurantRepo restaurantRepo;
+
+    public RestaurantService(RestaurantRepo restaurantRepo) {
+        this.restaurantRepo = restaurantRepo;
+    }
 
     public List<RestaurantDTO> getAllRestaurants() {
         List<Restaurant> restaurantList = restaurantRepo.findAll();
         // Return an empty list if no restaurants are found
         if (restaurantList.isEmpty()) {
-            return new ArrayList<>();
+            return  List.of(); // Return an empty list if no restaurants are found
         }
         // Map the list of Restaurant entities to a list of RestaurantDTOs
         List<RestaurantDTO> restaurantDTOList = restaurantList.stream().map(restaurant -> RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant)).collect(Collectors.toList());
