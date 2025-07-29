@@ -36,4 +36,15 @@ public class RestaurantService {
         // Map the saved Restaurant entity back to a RestaurantDTO
         return RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(savedRestaurant);
     }
+
+    public RestaurantDTO getRestaurantById(int id) {
+        // Find the restaurant by ID
+        Restaurant restaurant = restaurantRepo.findById(id).orElse(null);
+        // If the restaurant is not found, return null
+        if (restaurant == null) {
+            return null;
+        }
+        // Map the found Restaurant entity to a RestaurantDTO
+        return RestaurantMapper.INSTANCE.mapRestaurantToRestaurantDTO(restaurant);
+    }
 }

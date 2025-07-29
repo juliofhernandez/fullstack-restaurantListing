@@ -34,4 +34,12 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRestaurant); // Return 201 Created with the created restaurant
     }
 
+    @GetMapping("/getRestaurantById/{id}")
+    public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable int id) {
+        RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
+        if (restaurantDTO == null) {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found if the restaurant does not exist
+        }
+        return ResponseEntity.ok(restaurantDTO); // Return 200 OK with the restaurant details
+    }
 }
