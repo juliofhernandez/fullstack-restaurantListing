@@ -2,6 +2,7 @@ package com.juliofhernandez.fullstackrestaurantlisting.controller;
 
 import com.juliofhernandez.fullstackrestaurantlisting.dto.RestaurantDTO;
 import com.juliofhernandez.fullstackrestaurantlisting.service.RestaurantService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurant")
+@Slf4j
+@CrossOrigin // Allow cross-origin requests for this controller, e.g. from the frontend Angular application
 public class RestaurantController {
 
     private RestaurantService restaurantService;
@@ -21,6 +24,7 @@ public class RestaurantController {
 
     @GetMapping("/getAllRestaurants")
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
+        log.info("Fetching all restaurants");
         List<RestaurantDTO> restaurantList = restaurantService.getAllRestaurants();
         if (restaurantList.isEmpty()) {
             return ResponseEntity.noContent().build(); // Return 204 No Content if the list is empty
@@ -30,6 +34,7 @@ public class RestaurantController {
 
     @PostMapping("/addRestaurant")
     public ResponseEntity<RestaurantDTO> addRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        log.info("Adding new restaurant: {}", restaurantDTO);
         RestaurantDTO createdRestaurant = restaurantService.addRestaurant(restaurantDTO);
         if (createdRestaurant == null) {
             return ResponseEntity.badRequest().build(); // Return 400 Bad Request if the restaurant could not be created
@@ -39,6 +44,7 @@ public class RestaurantController {
 
     @GetMapping("/getRestaurantById/{id}")
     public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable int id) {
+        log.info("Fetching restaurant with ID: {}", id);
         RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
         if (restaurantDTO == null) {
             return ResponseEntity.notFound().build(); // Return 404 Not Found if the restaurant does not exist
@@ -48,6 +54,7 @@ public class RestaurantController {
 
     @DeleteMapping("/deleteRestaurantById/{id}")
     public ResponseEntity<Void> deleteRestaurantById(@PathVariable int id) {
+        log.info("Deleting restaurant with ID: {}", id);
         boolean isDeleted = restaurantService.deleteRestaurantById(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build(); // Return 404 Not Found if the restaurant does not exist
